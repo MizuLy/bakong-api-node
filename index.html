@@ -1,0 +1,625 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shop Anh — Pay with KHQR</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0f1220;
+        --bg-soft: #161a2c;
+        --surface: #1c2036;
+        --gold: #e3b23c;
+        --gold-dim: #a88530;
+        --stamp: #c0392b;
+        --text: #f4f1ea;
+        --text-muted: #9098b3;
+        --line: #2c3150;
+        --radius: 18px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+        font-family: "Inter", sans-serif;
+      }
+
+      body {
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding: 56px 20px 80px;
+        background:
+          radial-gradient(
+            circle at 20% 0%,
+            rgba(227, 178, 60, 0.08),
+            transparent 45%
+          ),
+          radial-gradient(
+            circle at 85% 30%,
+            rgba(192, 57, 43, 0.08),
+            transparent 40%
+          ),
+          var(--bg);
+      }
+
+      .wrap {
+        width: 100%;
+        max-width: 400px;
+      }
+
+      .eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: center;
+        margin-bottom: 18px;
+        color: var(--text-muted);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .eyebrow::before,
+      .eyebrow::after {
+        content: "";
+        height: 1px;
+        width: 28px;
+        background: var(--line);
+      }
+
+      .ticket {
+        position: relative;
+        background: var(--surface);
+        border-radius: var(--radius);
+        padding: 34px 30px 28px;
+        box-shadow:
+          0 30px 60px -20px rgba(0, 0, 0, 0.6),
+          0 0 0 1px var(--line);
+      }
+
+      .ticket::before,
+      .ticket::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 14px;
+        background: radial-gradient(
+            circle 7px,
+            var(--bg) 7px,
+            transparent 7.5px
+          )
+          0 0 / 22px 100% repeat-x;
+      }
+      .ticket::before {
+        top: -7px;
+      }
+      .ticket::after {
+        bottom: -7px;
+        transform: rotate(180deg);
+      }
+
+      .brand {
+        text-align: center;
+        margin-bottom: 4px;
+      }
+      .brand h1 {
+        font-family: "Fraunces", serif;
+        font-weight: 600;
+        font-size: 30px;
+        margin: 0;
+        letter-spacing: -0.01em;
+      }
+      .brand p {
+        margin: 6px 0 0;
+        color: var(--text-muted);
+        font-size: 13px;
+      }
+
+      .divider {
+        border: none;
+        border-top: 1px dashed var(--line);
+        margin: 24px 0;
+      }
+
+      .field {
+        margin-bottom: 18px;
+      }
+      .field label {
+        display: block;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10.5px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        margin-bottom: 8px;
+      }
+
+      .amount-row {
+        display: flex;
+        gap: 10px;
+      }
+      .amount-input-wrap {
+        position: relative;
+        flex: 1;
+      }
+      .amount-input-wrap .currency-sign {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gold);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 16px;
+        pointer-events: none;
+      }
+
+      input[type="text"],
+      input[type="number"],
+      select {
+        width: 100%;
+        background: var(--bg-soft);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 13px 14px;
+        color: var(--text);
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 16px;
+        outline: none;
+        transition: border-color 0.15s ease;
+      }
+
+      input#amount {
+        padding-left: 30px;
+      }
+      input::placeholder {
+        color: #5c6285;
+      }
+      input:focus,
+      select:focus {
+        border-color: var(--gold-dim);
+      }
+      select#currency {
+        width: 92px;
+        cursor: pointer;
+      }
+      select {
+        appearance: none;
+        background-image:
+          linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
+          linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
+        background-position:
+          calc(100% - 18px) center,
+          calc(100% - 13px) center;
+        background-size:
+          5px 5px,
+          5px 5px;
+        background-repeat: no-repeat;
+      }
+
+      input#description {
+        font-family: "Inter", sans-serif;
+        font-size: 14px;
+      }
+
+      .generate-btn {
+        width: 100%;
+        padding: 15px;
+        margin-top: 6px;
+        border: none;
+        border-radius: 10px;
+        background: var(--gold);
+        color: #221a08;
+        font-family: "Inter", sans-serif;
+        font-weight: 700;
+        font-size: 15px;
+        letter-spacing: 0.01em;
+        cursor: pointer;
+        transition:
+          transform 0.1s ease,
+          background 0.15s ease;
+      }
+
+      .generate-btn:hover {
+        background: #ecc158;
+      }
+      .generate-btn:active {
+        transform: scale(0.98);
+      }
+      .generate-btn:disabled {
+        background: var(--line);
+        color: var(--text-muted);
+        cursor: not-allowed;
+      }
+
+      .error-msg {
+        display: none;
+        margin-top: 14px;
+        padding: 12px 14px;
+        border-radius: 10px;
+        background: rgba(192, 57, 43, 0.12);
+        border: 1px solid rgba(192, 57, 43, 0.35);
+        color: #f2a79e;
+        font-size: 13px;
+        line-height: 1.5;
+      }
+
+      .qr-stage {
+        display: none;
+        text-align: center;
+      }
+
+      .qr-frame {
+        position: relative;
+        width: 220px;
+        height: 220px;
+        margin: 4px auto 18px;
+        background: #fff;
+        border-radius: 14px;
+        padding: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .qr-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+      }
+      .qr-frame.paid img {
+        filter: blur(2px) grayscale(0.4);
+        opacity: 0.5;
+      }
+
+      .stamp {
+        display: none;
+        position: absolute;
+        inset: 0;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+      }
+      .stamp span {
+        border: 4px solid var(--stamp);
+        color: var(--stamp);
+        font-family: "IBM Plex Mono", monospace;
+        font-weight: 700;
+        font-size: 22px;
+        letter-spacing: 0.12em;
+        padding: 6px 14px;
+        border-radius: 8px;
+        transform: rotate(-14deg);
+        text-transform: uppercase;
+        background: rgba(255, 255, 255, 0.85);
+      }
+      .qr-frame.paid .stamp {
+        display: flex;
+      }
+
+      .pay-meta {
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12px;
+        color: var(--text-muted);
+        margin-bottom: 2px;
+      }
+      .pay-amount {
+        font-family: "Fraunces", serif;
+        font-size: 34px;
+        font-weight: 600;
+        margin: 2px 0 14px;
+      }
+
+      .status-row {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 12.5px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--gold);
+        margin-bottom: 22px;
+      }
+
+      .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--gold);
+        animation: pulse 1.4s ease-in-out infinite;
+      }
+      .status-row.paid {
+        color: #6fcf97;
+      }
+      .status-row.paid .dot {
+        background: #6fcf97;
+        animation: none;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.35;
+          transform: scale(0.7);
+        }
+      }
+
+      .reset-btn {
+        width: 100%;
+        padding: 13px;
+        border-radius: 10px;
+        border: 1px solid var(--line);
+        background: transparent;
+        color: var(--text-muted);
+        font-family: "Inter", sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+      }
+      .reset-btn:hover {
+        border-color: var(--gold-dim);
+        color: var(--text);
+      }
+
+      .meta-lines {
+        margin-top: 16px;
+        font-family: "IBM Plex Mono", monospace;
+        font-size: 10.5px;
+        color: #545a78;
+      }
+      .meta-lines div {
+        margin-top: 3px;
+        word-break: break-all;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .dot {
+          animation: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="eyebrow">Bakong · KHQR</div>
+
+      <div class="ticket">
+        <div class="brand">
+          <h1>Shop Anh</h1>
+          <p>Scan &amp; pay with any Bakong app</p>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- FORM STAGE -->
+        <div id="formStage">
+          <div class="field">
+            <label for="amount">Amount</label>
+            <div class="amount-row">
+              <div class="amount-input-wrap">
+                <span class="currency-sign" id="currencySign">$</span>
+                <input
+                  type="number"
+                  id="amount"
+                  placeholder="0.00"
+                  min="0"
+                  step="0.01"
+                  inputmode="decimal"
+                />
+              </div>
+              <select id="currency">
+                <option value="USD" selected>USD</option>
+                <option value="KHR">KHR</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="description">Description (optional)</label>
+            <input
+              type="text"
+              id="description"
+              placeholder="e.g. Iced coffee x2"
+            />
+          </div>
+
+          <button class="generate-btn" id="generateBtn">
+            Generate QR code
+          </button>
+
+          <div class="error-msg" id="errorMsg"></div>
+        </div>
+
+        <!-- QR / STATUS STAGE -->
+        <div class="qr-stage" id="qrStage">
+          <div class="pay-meta" id="payMeta">PAY</div>
+          <div class="pay-amount" id="payAmount">$0.00</div>
+
+          <div class="qr-frame" id="qrFrame">
+            <img id="qrImage" src="" alt="KHQR payment code" />
+            <div class="stamp"><span>Paid</span></div>
+          </div>
+
+          <div class="status-row" id="statusRow">
+            <span class="dot"></span>
+            <span id="statusText">Waiting for payment…</span>
+          </div>
+
+          <button class="reset-btn" id="resetBtn">Start a new payment</button>
+
+          <div class="meta-lines">
+            <div id="billLine"></div>
+            <div id="md5Line"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const API_BASE = "http://localhost:6969";
+
+      const formStage = document.getElementById("formStage");
+      const qrStage = document.getElementById("qrStage");
+      const generateBtn = document.getElementById("generateBtn");
+      const errorMsg = document.getElementById("errorMsg");
+      const currencySelect = document.getElementById("currency");
+      const currencySign = document.getElementById("currencySign");
+      const amountInput = document.getElementById("amount");
+
+      const qrImage = document.getElementById("qrImage");
+      const qrFrame = document.getElementById("qrFrame");
+      const payAmount = document.getElementById("payAmount");
+      const payMeta = document.getElementById("payMeta");
+      const statusRow = document.getElementById("statusRow");
+      const statusText = document.getElementById("statusText");
+      const billLine = document.getElementById("billLine");
+      const md5Line = document.getElementById("md5Line");
+      const resetBtn = document.getElementById("resetBtn");
+
+      let pollTimer = null;
+      let currentMd5 = null;
+
+      currencySelect.addEventListener("change", () => {
+        currencySign.textContent = currencySelect.value === "USD" ? "$" : "៛";
+      });
+
+      function showError(message) {
+        errorMsg.textContent = message;
+        errorMsg.style.display = "block";
+      }
+
+      function clearError() {
+        errorMsg.style.display = "none";
+        errorMsg.textContent = "";
+      }
+
+      function formatAmount(amount, currency) {
+        if (currency === "USD") {
+          return "$" + Number(amount).toFixed(2);
+        }
+        return Number(amount).toLocaleString("en-US") + " ៛";
+      }
+
+      async function generateQR() {
+        clearError();
+
+        const amount = parseFloat(amountInput.value);
+        const currency = currencySelect.value;
+        const description = document.getElementById("description").value.trim();
+
+        if (!amount || amount <= 0) {
+          showError("Enter an amount greater than 0.");
+          return;
+        }
+
+        if (currency === "KHR" && !Number.isInteger(amount)) {
+          showError("KHR amount must be a whole number.");
+          return;
+        }
+
+        generateBtn.disabled = true;
+        generateBtn.textContent = "Generating…";
+
+        try {
+          const res = await fetch(`${API_BASE}/api/generate-qr`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ amount, currency, description }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok || !data.success) {
+            throw new Error(data.error || "Failed to generate QR code.");
+          }
+
+          currentMd5 = data.md5;
+          qrImage.src = data.qr_image;
+          payAmount.textContent = formatAmount(data.amount, data.currency);
+          payMeta.textContent = description ? description.toUpperCase() : "PAY";
+          billLine.textContent = "BILL " + data.bill_number;
+          md5Line.textContent = "TXN " + data.md5;
+
+          qrFrame.classList.remove("paid");
+          statusRow.classList.remove("paid");
+          statusText.textContent = "Waiting for payment…";
+
+          formStage.style.display = "none";
+          qrStage.style.display = "block";
+
+          startPolling(currentMd5);
+        } catch (err) {
+          showError(err.message || "Something went wrong. Please try again.");
+        } finally {
+          generateBtn.disabled = false;
+          generateBtn.textContent = "Generate QR code";
+        }
+      }
+
+      function startPolling(md5) {
+        stopPolling();
+        pollTimer = setInterval(async () => {
+          try {
+            const res = await fetch(`${API_BASE}/api/check-payment?md5=${md5}`);
+            const data = await res.json();
+
+            if (!res.ok) return;
+
+            if (data.status === "PAID") {
+              stopPolling();
+              qrFrame.classList.add("paid");
+              statusRow.classList.add("paid");
+              statusText.textContent = "Payment received";
+            }
+          } catch (err) {
+            // Silent fail — keep polling, network hiccups shouldn't interrupt the wait
+          }
+        }, 8000);
+      }
+
+      function stopPolling() {
+        if (pollTimer) {
+          clearInterval(pollTimer);
+          pollTimer = null;
+        }
+      }
+
+      function resetForm() {
+        stopPolling();
+        currentMd5 = null;
+        qrStage.style.display = "none";
+        formStage.style.display = "block";
+        amountInput.value = "";
+        document.getElementById("description").value = "";
+        clearError();
+      }
+
+      generateBtn.addEventListener("click", generateQR);
+      resetBtn.addEventListener("click", resetForm);
+      amountInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") generateQR();
+      });
+    </script>
+  </body>
+</html>
